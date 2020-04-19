@@ -2,7 +2,7 @@
 
 # Installation
 
-Edit UserFrosting `app/sprinkles.json` and add the following to the `require` list : `"userfrosting/admin-lte": "~4.1.1"`. Also add `admin-lte` to the `base` list. For example:
+Edit UserFrosting `app/sprinkles.json` and add the following to the `require` list : `"userfrosting/admin-lte": "~1.0.0"`. Also add `admin-lte` to the `base` list. For example:
 
 ```
 {
