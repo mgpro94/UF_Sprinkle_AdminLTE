@@ -1,0 +1,44 @@
+<div class="container">
+
+	{% block navbar_logo %}
+		<a href="{{site.uri.public}}" class="navbar-brand">
+			<span class="brand-text font-weight-light">{{site.title}}</span>
+		</a>
+	{% endblock %}
+
+	<button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse order-3" id="navbarCollapse">
+		<!-- Left navbar links -->
+		<ul class="navbar-nav">
+			{% block main_nav %}
+				<li class="nav-item">
+					<a href="{{site.uri.public}}/about" class="nav-link">{{translate("ABOUT")}}</a>
+				</li>
+			{% endblock %}
+		</ul>
+	</div>
+
+	<!-- Right navbar links -->
+	<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+		<!-- Messages Dropdown Menu -->
+		<li class="nav-item dropdown">
+			{% block secondary_nav %}
+				{% if not checkAuthenticated() %}
+					<a class="nav-link" href="{{site.uri.public}}/account/sign-in">
+						{{translate("SIGNIN")}}
+					</a>
+				{% else %}
+						{% include "navigation/user-card.html.twig" %}
+				{% endif %}
+			{% endblock %}
+		</ul>
+	</ul>
+
+
+</div>
+<!-- /.container-fluid -->

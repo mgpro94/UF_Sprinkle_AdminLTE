@@ -1,0 +1,289 @@
+{% extends "pages/abstract/dashboard.html.twig" %}
+
+{# Overrides blocks in head of base template #}
+{% block page_title %}{{ translate("DASHBOARD") }}{% endblock %}
+{% block page_description %}{% endblock %}
+
+{% block body_matter %}
+	<!-- Info boxes -->
+	{% if checkAccess('uri_users') %}
+	<div class="row">
+		<div class="col-sm-4 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-info"><i class="text-light fas fa-user"></i></span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">{{ translate("USER", 2) }}</span>
+					<span class="info-box-number">{{counter.users}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-sm-4 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-success"><i class="text-light fas fa-id-card"></i></span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">{{ translate("ROLE", 2) }}</span>
+					<span class="info-box-number">{{counter.roles}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-sm-4 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-warning"><i class="text-light fas fa-users"></i></span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">{{ translate("GROUP", 2) }}</span>
+					<span class="info-box-number">{{counter.groups}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+
+	{% elseif checkAccess('uri_group', {
+		'group': current_user.group
+	}) %}
+	<div class="row">
+		<div class="col-sm-6 col-xs-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-warning"><i class="fas {{current_user.group.icon}}"></i></span>
+
+				<div class="info-box-content">
+					<h1>{{current_user.group.name}}</h1>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+
+		<div class="col-sm-6 col-xs-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-info"><i class="text-light fas fa-user"></i></span>
+				<div class="info-box-content">
+					<span class="info-box-text">{{ translate("USER", 2) }}</span>
+					<span class="info-box-number">{{current_user.group.users.count}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+	{% endif %}
+
+	
+
+<!-- Main panels -->
+<div class="row">
+	{% if checkAccess('uri_users') or checkAccess('view_system_info') %}
+	<div class="col-md-6 col-sm-12 col-xs-12">
+		{% if checkAccess('uri_users') %}
+		<div class="row">
+			<div class="col-sm-12">
+				<!-- USERS LIST -->
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">
+							<i class="fas fa-users mr-1"></i>
+							{{translate("USER.LATEST")}}
+						</h3>
+					</div><!-- /.card-header -->
+					<div class="card-body">
+						<ul class="users-list clearfix">
+							{% for user in users %}
+							<li>
+								<img src="{{ user.avatar }}" alt="User Image">
+								<a class="users-list-name text-capitalize" href="{{site.uri.public}}/users/u/{{user.user_name}}">{{user.first_name}} {{user.last_name}}</a>
+								<span class="users-list-date">{{ user.registered }}</span>
+							</li>
+							{% endfor %}
+						</ul>
+						<!-- /.users-list -->
+					</div><!-- /.card-body -->
+					
+					<div class="card-footer text-center text-capitalize">
+						<a href="{{site.uri.public}}/users">{{translate("USER.VIEW_ALL")}}</a>
+					</div>
+					<!-- /.card-footer -->
+				</div>
+				<!--/.card -->
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+		{% endif %}
+
+		{% if checkAccess('view_system_info') %}
+		<div class="row">
+			<div class="col-sm-12">
+				<!-- SYSTEM INFO -->
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">
+							<i class="fas fa-info"></i>
+							{{translate("SYSTEM_INFO")}}
+						</h3>
+					</div><!-- /.card-header -->
+					<div class="card-body">
+						<dl class="row">
+							<dt class="col-6">{{translate("SYSTEM_INFO.UF_VERSION")}}</dt>
+							<dd class="col-6">{{info.version.UF}}</dd>
+
+							<dt class="col-6">{{translate("SYSTEM_INFO.PHP_VERSION")}}</dt>
+							<dd class="col-6">{{info.version.php}}</dd>
+
+							<dt class="col-6">{{translate("SYSTEM_INFO.SERVER")}}</dt>
+							<dd class="col-6">{{info.environment.SERVER_SOFTWARE}}</dd>
+
+							<dt class="col-6">{{translate("SYSTEM_INFO.DB_VERSION")}}</dt>
+							<dd class="col-6">{{info.version.database.type}} {{info.version.database.version}}</dd>
+
+							<dt class="col-6">{{translate("SYSTEM_INFO.DB_NAME")}}</dt>
+							<dd class="col-6">{{info.database.name}}</dd>
+
+							<dt class="col-6">{{translate("SYSTEM_INFO.DIRECTORY")}}</dt>
+							<dd class="col-6">{{info.path.project}}</dd>
+
+							<dt class="col-6">{{translate("SYSTEM_INFO.URL")}}</dt>
+							<dd class="col-6">{{site.uri.public}}</dd>
+
+							<dt class="col-6">{{translate("SYSTEM_INFO.SPRINKLES")}}</dt>
+							<dd class="col-6">
+								<ul class="list-unstyled">
+								{% for sprinkle in sprinkles %}
+								<li>
+									{{sprinkle}}
+								</li>
+								{% endfor %}
+								</ul>
+							</dd>
+						</dl>
+					</div><!-- /.card-body -->
+					
+					<div class="card-footer text-center text-capitalize">
+						<a href="javascript:void(0)" class="js-clear-cache">{{ translate("CACHE.CLEAR") }}</a>
+					</div>
+					<!-- /.card-footer -->
+				</div>
+				<!--/.card -->
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+		{% endif %}
+	</div>
+	<!-- /.col -->
+	{% endif %}
+	
+
+	
+	{% if checkAccess('uri_activities') %}
+	<div class="col-md-6 col-sm-12 col-xs-12">
+		<!-- ACTIVITY -->
+		<div id="widget-activities" class="card">
+			<div class="card-header">
+				<h3 class="card-title">
+					<i class="fas fa-tasks"></i>
+					{{translate("ACTIVITY", 2)}}
+				</h3>
+				{% include "tables/table-tool-menu.html.twig" %}
+			</div><!-- /.card-header -->
+			<div class="card-body">
+				{% include "tables/activities.html.twig" with {
+						"table" : {
+							"id" : "table-activities",
+							"columns" : ["user"]
+						}
+					}
+				%}
+			</div><!-- /.card-body -->
+		</div>
+		<!--/.card -->
+	</div>
+	{% elseif checkAccess('view_group_field', {
+		'group': current_user.group,
+		'property': 'users'
+	}) %}
+	<div class="col-md-6 col-sm-12 col-xs-12">
+		<!-- USERS IN GROUP -->
+		<div id="widget-group-users" class="card">
+			<div class="card-header">
+				<h3 class="card-title">
+					<i class="fas fa-user"></i>
+					{{translate("USER", 2)}}
+				</h3>
+				{% include "tables/table-tool-menu.html.twig" %}
+			</div><!-- /.card-header -->
+			<div class="card-body">
+				{% include "tables/users.html.twig" with {
+						"table" : {
+							"id" : "table-group-users"
+						}
+					}
+				%}
+			</div><!-- /.card-body -->
+		</div>
+		<!--/.card -->
+	</div>
+	{% else %}
+	<div class="col-md-6 col-sm-12 col-xs-12">
+		<!-- WELCOME -->
+		<div id="widget-group-users" class="card">
+			<div class="card-header">
+				<h3 class="card-title text-capitalize">
+					{{translate("WELCOME", {
+                          'first_name': current_user.first_name
+                    })}}
+				</h3>
+			</div><!-- /.card-header -->
+			<div class="card-body">
+				<h4>
+					{{translate("WELCOME_TO", {
+						'title': site.title
+					})}}
+				</h4>
+				<p>
+					{{translate("NO_FEATURES_YET")}}
+				</p>
+			</div><!-- /.card-body -->
+		</div>
+		<!--/.card -->
+	</div>
+	{% endif %}
+
+</div>
+<!-- /.row -->
+
+{% endblock %}
+
+{% block scripts_page %}
+	<!-- Include page variables -->
+	<script>
+		{% include "pages/partials/page.js.twig" %}
+
+		// Add user name
+		page = $.extend(
+			true,			// deep extend
+			{
+				"group_slug": "{{current_user.group.slug}}"
+			},
+			page
+		);
+	</script>
+
+	<!-- Include page-specific JS -->
+	{{ assets.js('js/pages/dashboard') | raw }}
+
+{% endblock %}

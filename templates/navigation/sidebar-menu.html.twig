@@ -1,0 +1,38 @@
+{% block navigation %}
+    {% if checkAccess('uri_dashboard') %}
+    <li class="nav-item">
+        <a href="{{site.uri.public}}/dashboard" class="nav-link"><i class="nav-icon fas fa-tachometer-alt fa-fw"></i> <p>{{ translate("DASHBOARD") }}</p></a>
+    </li>
+    {% endif %}
+    {% if checkAccess('uri_users') %}
+    <li class="nav-item">
+        <a href="{{site.uri.public}}/users" class="nav-link"><i class="nav-icon fas fa-user fa-fw"></i> <p>{{ translate("USER", 2) }}</p></a>
+    </li>
+    {% elseif checkAccess('uri_group', {
+        'group': current_user.group
+    }) %}
+    <li class="nav-item">
+        <a href="{{site.uri.public}}/groups/g/{{current_user.group.slug}}" class="nav-link"><i class="nav-icon {{current_user.group.icon}} fa-fw"></i> <p>{{ translate("GROUP.MANAGE") }}</p></a>
+    </li>
+    {% endif %}
+    {% if checkAccess('uri_activities') %}
+    <li class="nav-item">
+        <a href="{{site.uri.public}}/activities" class="nav-link"><i class="nav-icon fas fa-tasks fa-fw"></i> <p>{{ translate("ACTIVITY", 2) }}</p></a>
+    </li>
+    {% endif %}
+    {% if checkAccess('uri_roles') %}
+    <li class="nav-item">
+        <a href="{{site.uri.public}}/roles" class="nav-link"><i class="nav-icon fas fa-id-card fa-fw"></i> <p>{{ translate("ROLE", 2) }}</p></a>
+    </li>
+    {% endif %}
+    {% if checkAccess('uri_permissions') %}
+    <li class="nav-item">
+        <a href="{{site.uri.public}}/permissions" class="nav-link"><i class="nav-icon fas fa-key fa-fw"></i> <p>{{ translate("PERMISSION", 2) }}</p></a>
+    </li>
+    {% endif %}
+    {% if checkAccess('uri_groups') %}
+    <li class="nav-item">
+        <a href="{{site.uri.public}}/groups" class="nav-link"><i class="nav-icon fas fa-users fa-fw"></i> <p>{{ translate("GROUP", 2) }}</p></a>
+    </li>
+    {% endif %}
+{% endblock %}

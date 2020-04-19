@@ -1,0 +1,14 @@
+
+/* fix Bootstrap 4 compatibility for fontawesome-iconpicker */
+.fade.in{
+    opacity: 1;
+}
+
+.form-check {
+    padding-left: 0;
+    padding-right: 1.25rem;
+}
+
+.form-check label {
+    padding-left: 0.25rem;
+}

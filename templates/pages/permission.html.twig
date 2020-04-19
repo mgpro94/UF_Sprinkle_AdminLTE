@@ -1,0 +1,94 @@
+{% extends "pages/abstract/dashboard.html.twig" %}
+
+{% block stylesheets_page %}
+	<!-- Page-group-specific CSS asset bundle -->
+	{{ assets.css('css/form-widgets') | raw }}
+{% endblock %}
+
+{# Overrides blocks in head of base template #}
+{% block page_title %}{{translate("PERMISSION", 2)}} | {{permission.name}}{% endblock %}
+
+{% block page_description %}{{translate("PERMISSION.INFO_PAGE", {name: permission.name})}}{% endblock %}
+
+{% block body_matter %}
+	<div class="row">
+		<div class="col-md-3">
+			<div id="view-permission" class="card card-primary card-outline">
+				<div class="card-header">
+					<h3 class="card-title">
+						{{translate("PERMISSION.SUMMARY")}}
+					</h3>
+				</div>
+				<div class="card-body">
+					<div class="text-center">
+						<i class="fas fa-key fa-5x"></i>
+					</div>
+
+					<h3 class="profile-username text-center">{{permission.name}}</h3>
+
+					<p class="text-muted">
+						{{permission.description}}
+					</p>
+
+					<ul class="list-group list-group-unbordered mb-3">
+						<li class="list-group-item">
+							{{ translate('PERMISSION.ID')}}</b>
+							<a class="float-right">{{permission.id}}</a>
+						</li>
+					</ul>
+
+					<strong>{{translate("SLUG_CONDITION")}}</strong>
+					<p>
+						<code>{{permission.slug}}</code>
+						<br>
+						&#x21b3; <code>{{permission.conditions}}</code>
+					</p>
+				</div>
+				<div class="card-footer">
+					{{translate("PERMISSION.NOTE_READ_ONLY")}}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+            <div id="widget-permission-users" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-key"></i>
+                        {{translate("USER.WITH_PERMISSION")}}
+                    </h3>
+                    {% include "tables/table-tool-menu.html.twig" %}
+                </div><!-- /.card-header -->
+				<div class="card-body">
+					{% include "tables/users.html.twig" with {
+							"table" : {
+								"id" : "table-permission-users",
+								"columns" : ["via_roles"]
+							}
+						}
+					%}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block scripts_page %}
+	<!-- Include page variables -->
+	<script>
+	{% include "pages/partials/page.js.twig" %}
+
+	// Add user name
+	page = $.extend(
+		true,               // deep extend
+		{
+			"permission_id": "{{permission.id}}"
+		},
+		page
+	);
+	</script>
+
+	<!-- Include form widgets JS -->
+	{{ assets.js('js/form-widgets') | raw }}
+
+	<!-- Include page-specific JS -->
+	{{ assets.js('js/pages/permission') | raw }}
+{% endblock %}

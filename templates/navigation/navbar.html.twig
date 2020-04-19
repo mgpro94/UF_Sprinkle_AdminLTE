@@ -1,0 +1,27 @@
+{% block dashboard_navbar %}
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+        {% if current_user.isMaster() %}
+            <form class="form-inline">
+                <li class="d-none d-sm-inline-block">
+                    <a href="#" class="text-danger">{{ translate("HEADER_MESSAGE_ROOT") | upper }}</a>
+                </li>
+            </form>
+        {% endif %}
+
+        {# additional elements (e.g., menus, messages) before the user account drop down #}
+        {% block dashboard_navbar_extra %} {% endblock %}
+        
+
+        {# User Account: style can be found in dropdown.less #}
+        {% include "navigation/user-card.html.twig" %}
+    
+    </ul>
+{% endblock %}

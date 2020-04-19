@@ -1,0 +1,63 @@
+{% extends "pages/abstract/base.html.twig" %}
+
+{% block stylesheets_page_group %}
+{% endblock %}
+
+{% block body_attributes %}
+		class="hold-transition skin-{{site.AdminLTE.skin}} layout-top-nav"
+{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+
+	<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+		{% include "navigation/main-nav.html.twig" %}
+	</nav>
+
+	<!-- Full Width Column -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		{% block content_header %}
+		<div class="content-header">
+			<div class="container">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1 class="m-0 text-dark">{% block header_title %}{{ block('page_title') }}{% endblock %}</h1>
+						{% if block('page_description') is not empty %}{% block header_description %}{{ block('page_description') }}{% endblock %}{% endif %}
+					</div><!-- /.col -->
+
+					<div class="col-sm-6">
+						{% block breadcrumb %}
+							{% include 'navigation/breadcrumb.html.twig' with {page_title: block('page_title')} %}
+						{% endblock %}
+					</div><!-- /.col -->
+
+				</div><!-- /.row -->
+
+				<div class="row mb-2">
+      			    <div id="alerts-page" class="col-12"></div>
+				</div><!-- /.row -->
+
+			</div><!-- /.container-fluid -->
+
+		</div>
+		{% endblock %}
+		<!-- /.content-header -->
+
+		<!-- Main content -->
+		<div class="content">
+			{% block body_matter %}{% endblock %}
+		</div>
+		<!-- /.content -->
+		
+	</div>
+	<!-- /.content-wrapper -->
+
+	{% block footer %}
+		{% include "pages/partials/footer.html.twig" %}
+	{% endblock %}
+</div>
+<!-- ./wrapper -->
+
+{% endblock %}

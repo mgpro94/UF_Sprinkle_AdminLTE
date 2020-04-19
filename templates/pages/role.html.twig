@@ -1,0 +1,136 @@
+{% extends "pages/abstract/dashboard.html.twig" %}
+
+{% block stylesheets_page %}
+	<!-- Page-group-specific CSS asset bundle -->
+	{{ assets.css('css/form-widgets') | raw }}
+{% endblock %}
+
+{# Overrides blocks in head of base template #}
+{% block page_title %}{{translate("ROLE", 2)}} | {{role.name}}{% endblock %}
+
+{% block page_description %}{{translate("ROLE.INFO_PAGE", {name: role.name})}}{% endblock %}
+
+{% block body_matter %}
+	<div class="row">
+		<div class="col-md-3">
+			<div id="view-role" class="card card-primary card-outline">
+				<div class="card-header">
+					<h3 class="card-title">
+						{{translate("ROLE.SUMMARY")}}
+					</h3>
+
+					{% if 'tools' not in tools.hidden %}
+						<div class="card-tools">
+							<div class="btn-group">
+								<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								  <i class="fas fa-cog"></i>
+								</button>
+								<div class="dropdown-menu box-tool-menu">
+									{% block tools %}
+										<a href="#" class="dropdown-item js-role-edit" data-slug="{{role.slug}}">
+											<i class="fas fa-edit fa-fw"></i> {{translate('EDIT')}}
+										</a>
+										{% if 'permissions' not in tools.hidden %}
+										<a href="#" class="dropdown-item js-role-permissions" data-slug="{{role.slug}}">
+											<i class="fas fa-key"></i> {{translate("PERMISSION.MANAGE")}}
+										</a>
+										{% endif %}
+										{% if 'delete' not in tools.hidden %}
+											<a href="#" class="dropdown-item js-role-delete" data-slug="{{role.slug}}">
+												<i class="fas fa-trash-alt fa-fw"></i> {{translate('DELETE')}}
+											</a>
+										{% endif %}
+									{% endblock %}
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+				<div class="card-body">
+					<div class="text-center">
+						<i class="fas fa-id-card fa-5x"></i>
+					</div>
+
+					<h3 class="profile-username text-center">{{role.name}}</h3>
+
+					{% if 'description' not in fields.hidden %}
+						<p class="text-muted">
+							{{role.description}}
+						</p>
+					{% endif %}
+
+					{% if 'users' not in fields.hidden %}
+						<ul class="list-group list-group-unbordered mb-3">
+							<li class="list-group-item">
+								<b><i class="fas fa-users margin-r-5"></i> {{ translate('USER', 2)}}</b>
+								<a class="float-right">{{role.users.count}}</a>
+							</li>
+						</ul>
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+            <div id="widget-role-users" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-users"></i>
+                        {{translate("USER", 2)}}
+                    </h3>
+                    {% include "tables/table-tool-menu.html.twig" %}
+                </div><!-- /.card-header -->
+				<div class="card-body">
+					{% include "tables/users.html.twig" with {
+							"table" : {
+								"id" : "table-role-users",
+								"columns" : ["last_activity"]
+							}
+						}
+					%}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+            <div id="widget-role-permissions" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-key"></i>
+                        {{translate("PERMISSION", 2)}}
+                    </h3>
+                    {% include "tables/table-tool-menu.html.twig" %}
+                </div><!-- /.card-header -->
+				<div class="card-body">
+					{% include "tables/permissions.html.twig" with {
+							"table" : {
+								"id" : "table-role-permissions"
+							}
+						}
+					%}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block scripts_page %}
+	<!-- Include page variables -->
+	<script>
+	{% include "pages/partials/page.js.twig" %}
+
+	// Add role slug
+	page = $.extend(
+		true, // deep extend
+		{
+			role_slug: "{{role.slug}}",
+			delete_redirect: "{{delete_redirect}}"
+		},
+		page
+	);
+	</script>
+
+	<!-- Include form widgets JS -->
+	{{ assets.js('js/form-widgets') | raw }}
+
+	<!-- Include page-specific JS -->
+	{{ assets.js('js/pages/role') | raw }}
+{% endblock %}

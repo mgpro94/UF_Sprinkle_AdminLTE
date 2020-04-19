@@ -1,0 +1,20 @@
+{
+	"name": "userfrosting/admin-lte",
+	"type": "userfrosting-sprinkle",
+	"description": "Theme sprinkle, AdminLTE v3",
+	"license" : "MIT",
+	"authors" : [
+		{
+			"name": "Maxim Holodlin",
+			"homepage": ""
+		}
+	],
+	"require": {
+
+	},
+	"autoload": {
+		"psr-4": {
+			"UserFrosting\\Sprinkle\\AdminLte\\": "src/"
+		}
+	}
+}

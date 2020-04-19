@@ -1,0 +1,27 @@
+{# Tool menu for table panels #}
+
+
+<!-- tools card -->
+<div class="card-tools">
+	<!-- button with a dropdown -->
+	<div class="btn-group dropleft">
+		<button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
+			<i class="fas fa-bars"></i>
+		</button>
+		<div class="dropdown-menu float-right p-4" role="menu">
+			<a href="#" class="dropdown-item js-uf-table-download">
+				<i class="fas fa-table fa-fw"></i> {{ translate("DOWNLOAD.CSV") }}
+			</a>
+            <li role="separator" class="dropdown-divider"></li>
+			<h6 class="dropdown-header">{{translate('TOGGLE_COLUMNS')}}:</h6>
+			<div class="uf-table-cs-options js-uf-table-cs-options">
+                
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!-- /. tools -->
+
+
+

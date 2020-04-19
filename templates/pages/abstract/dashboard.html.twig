@@ -1,0 +1,89 @@
+{% extends "pages/abstract/base.html.twig" %}
+
+{% block stylesheets_page_group %}
+	<!-- Page-group-specific CSS asset bundle -->
+	{{ assets.css('css/admin') | raw }}
+{% endblock %}
+
+{% block body_attributes %}
+	{% if current_user.isMaster() %}
+		class="hold-transition skin-red sidebar-mini"
+	{% else %}
+		class="hold-transition skin-{{site.AdminLTE.skin}} sidebar-mini"
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+
+	<!-- Navbar -->
+	<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+		{% include "navigation/navbar.html.twig" %}
+	</nav>
+	<!-- /.navbar -->
+
+	<!-- Main Sidebar Container -->
+	<aside class="main-sidebar sidebar-dark-primary elevation-4">
+		<!-- Brand Logo -->
+		<a href="{{site.uri.public}}" class="brand-link">
+			{# <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> #}
+			<i class="fas fa-home"></i>
+			<span class="brand-text font-weight-light">{{site.title}}</span>
+		</a>
+
+		<!-- Sidebar -->
+		<div class="sidebar">
+			{% include 'navigation/sidebar.html.twig' %}
+		</div>
+		<!-- /.sidebar -->
+	</aside>
+
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		{% block content_header %}
+		<div class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1 class="m-0 text-dark">{% block header_title %}{{ block('page_title') }}{% endblock %}</h1>
+					</div><!-- /.col -->
+
+					<div class="col-sm-6">
+						{% block breadcrumb %}
+							{% include 'navigation/breadcrumb.html.twig' with {page_title: block('page_title')} %}
+						{% endblock %}
+					</div><!-- /.col -->
+					
+				</div><!-- /.row -->
+
+				<div class="row">
+      			    <div id="alerts-page" class="col-12"></div>
+				</div><!-- /.row -->
+
+			</div><!-- /.container-fluid -->
+		</div>
+		{% endblock %}
+		<!-- /.content-header -->
+
+		<!-- Main content -->
+		<div class="content">
+			{% block body_matter %}{% endblock %}
+		</div>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
+	
+	<!-- Main Footer -->
+    {% block footer %}
+        {% include "pages/partials/footer.html.twig" %}
+    {% endblock %}
+
+
+</div>
+<!-- ./wrapper -->
+{% endblock %}
+
+{% block scripts_page_group %}
+	{{ assets.js('js/admin') | raw }}
+{% endblock %}
